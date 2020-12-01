@@ -1,0 +1,59 @@
+from midiutil.MidiFile import MIDIFile
+from subprocess import Popen
+
+DO = 60
+RE = 62
+MI = 64
+FA = 65
+SOL = 67
+LA = 69
+CI = 71
+
+octave = [DO, RE, MI, FA, SOL, LA, CI]
+track = 0
+volume = 100
+channel = 0
+
+
+def addNote(midi_file, i):
+    pitch = octave[i]
+    time = 0  # start on beat 0
+    duration = 1  # 1 beat long
+    mf.addNote(track, channel, pitch, time, duration, volume)
+
+
+def play_notes(midi_file, number):
+    for i in range(6):
+
+        if number & (1 << i + 1) > 0:
+            print i
+            addNote(midi_file, i)
+
+
+def create_midi():
+    # create your MIDI object
+    mf = MIDIFile(1)  # only 1 track
+    track = 0  # the only track
+
+    time = 3  # start at the beginning
+    mf.addTrackName(track, time, "Sample Track")
+    mf.addTempo(track, time, 120)
+    return mf
+
+
+mf = create_midi()
+play_notes(mf, 4 + 16 + 64)
+
+with open("output.mid", 'wb') as outf:
+    mf.writeFile(outf)
+
+Popen(["aplaymidi", "--port", "128:0", "output.mid"])
+
+
+
+#
+# for i in range(len(octave)):
+#     pitch = octave[i]
+#     time = i  # start on beat 0
+#     duration = 1  # 1 beat long
+#     mf.addNote(track, channel, pitch, time, duration, volume)
