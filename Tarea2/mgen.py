@@ -208,6 +208,7 @@ goal1 = {'notes': [[71,69, 67,66, 67, 69, 67, 66, 64, 64, 72, 71, 66, 67, 69,67,
 goal2 = {'notes': [[67,67, 67,67, 67, 64, 62, 62, 60, 64, 72, 60, 67, 67, 60,72,71,69,67]],'velocity': [127,127, 127, 127, 127, 127, 127, 127, 127, 0, 127, 127, 127, 127, 127, 127, 127, 127, 127],'beat': [2.0, 1.5, 0.5, 1.0, 1.0, 1.0, 0.5, 0.5, 6.0, 1.0, 1.0, 1.5, 0.5, 1.0,0.5,0.5,1.0,0.5,0.5]}
 goal3 = {'notes': [[59,53, 59 , 59, 61, 63, 64, 66, 66, 66, 67, 69, 71, 71, 71,71,71,69,67]],'velocity': [127,127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127],'beat': [2.0, 3.0, 1.0, 0.5, 0.5, 0.5, 0.5, 4.0, 1.5, 0.5, 1.0, 1.0, 1.0, 4.0,1.0,1.0,1.0,1.0,1.0]}
 
+goles = [goal1, goal2, goal3]
 def evento_default(goal)-> [Events]:
     melody = goal
 
@@ -243,6 +244,7 @@ def evento_default(goal)-> [Events]:
 #@click.option("--key", default="C", prompt='Key:', type=click.Choice(KEYS, case_sensitive=False))
 #@click.option("--scale", default="major", prompt='Scale:', type=click.Choice(SCALES, case_sensitive=False))
 #@click.option("--root", default=4, prompt='Scale Root:', type=int)
+@click.option("--goal", default=0, prompt='goal:', type=int)
 @click.option("--population-size", default=10, prompt='Population size:', type=int)
 @click.option("--num-mutations", default=2, prompt='Number of mutations:', type=int)
 @click.option("--mutation-probability", default=0.5, prompt='Mutations probability:', type=float)
@@ -258,8 +260,8 @@ def evento_default(goal)-> [Events]:
 
 
 
-def main(population_size: int, num_mutations: int, mutation_probability: float):
-    goalF=goal1
+def main(population_size: int, num_mutations: int, mutation_probability: float,goal:int):
+    goalF=goles[goal]
 
     folder = str(int(datetime.now().timestamp()))
 
