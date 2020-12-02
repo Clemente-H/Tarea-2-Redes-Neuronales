@@ -262,7 +262,7 @@ def main(n_population: int,mutaciones:int, mutation_rate:int, n_iteraciones:int,
     sorted_population_fitness = sorted(resultados, key=lambda e: e[0], reverse=False)#en caso de que no se encuentre solucion deseada, se usará la que haya tenido menor fitnes (i.e la que este
         #mas cerca del goal)
     events = melody_to_events(sorted_population_fitness[0][1])
-    save_melody_to_midi(sorted_population_fitness[0][1],"resultado2")
+    #save_melody_to_midi(sorted_population_fitness[0][1],"resultado2")
     for e in events:#se reproduce la potencial solucion, y se guarda como archivo
         e.play()
     s.start()
