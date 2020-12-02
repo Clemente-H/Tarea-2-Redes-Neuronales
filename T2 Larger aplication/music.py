@@ -6,9 +6,7 @@ from datetime import datetime
 from typing import List, Dict
 from midiutil import MIDIFile
 from pyo import *
-#from goals import *
-
-#from algorithms.genetic import generate_genome, Genome, selection_pair, single_point_crossover, mutation
+import matplotlib.pyplot as plt
 
 
 #generate_random_population
@@ -141,9 +139,8 @@ def mutation(individual,mutation_rate):
 
 def save_melody_to_midi(melody,filename: str):
     
-
     if len(melody["notes"][0]) != len(melody["beat"]) or len(melody["notes"][0]) != len(melody["velocity"]):
-        raise ValueError
+       raise ValueError
 
     mf = MIDIFile(1)
 
@@ -163,6 +160,9 @@ def save_melody_to_midi(melody,filename: str):
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, "wb") as f:
         mf.writeFile(f)
+
+
+
 
 
 #goal1,2 y 3, son melodias, escritas a partir de canciones de diversos origenes
@@ -207,25 +207,7 @@ def main(n_population: int,mutaciones:int, mutation_rate:int, n_iteraciones:int,
 
     
     population=generate_random_population(n_population,k)   #se crea una poblacion de melodias
-    #print(population[4])
     s = Server().boot()
-
-    #n=population[4]
-    #events = melody_to_events(n)
-    #for e in events:
-     #   e.play()
-    #s.start()
-    #input("here is the wea …")
-    #s.stop()
-    #for e in events:
-    #    e.stop()
-    #time.sleep(1)
-
-
-
-
-    
-    
 
     events = melody_to_events(goal) #la melodia goal, es reproducida
     for e in events:
@@ -239,8 +221,10 @@ def main(n_population: int,mutaciones:int, mutation_rate:int, n_iteraciones:int,
     resultados=[]
     best0 = []
     iteration = 0 #se inicializa la variable que representa la generación en la que se encuentra el algoritmo
+    iteration_chart=[]
     while(iteration<n_iteraciones):
         iteration+=1
+        iteration_chart.append(iteration)
         fitness_array=[]
         for i in population: #para cada melodia
             i_fitness=fitness(i,goal) #calculate the fitness
@@ -288,12 +272,14 @@ def main(n_population: int,mutaciones:int, mutation_rate:int, n_iteraciones:int,
         e.stop()
     time.sleep(1)
     return 0
-    
 
-
- #the goal selected individual (solution)
-
-    save_melody_to_midi(best0[0],resultado)
+    #plot
+    plt.plot(iteration_chart,sorted_population_fitness,label="best fitness")
+    plt.xlabel('iteration/generation')
+    plt.ylabel('fitness')
+    plt.title('fitness vs generation')
+    plt.legend()
+    plt.show()
 
 
 if __name__ == '__main__': 
